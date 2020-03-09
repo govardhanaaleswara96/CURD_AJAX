@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Curd App</title>
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+    />
+    <!-- Google Fonts -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    />
+    <!-- Bootstrap core CSS -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Material Design Bootstrap -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.12.0/css/mdb.min.css"
+      rel="stylesheet"
+    />
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
+    ></script>
+  </head>
+  <body>
+    <!--nav bar-->
+    <nav class="navbar navbar-expand-lg navbar-dark primary-color">
+      <a class="navbar-brand" href="#">Curd App</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse " id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item ">
+            <a class="nav-link" href="index.html">User List</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="adduser.html">Add User</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container text-center mt-5">
+      <h3>User Details</h3>
+      <form action="" method="" id="editUserForm" name="editUserForm">
+        <div class="row">
+          <div class="col-md-6">
+            <label>User Name</label>
+            <input
+              type="text"
+              class="form-control"
+              name="name"
+              required
+              maxlength="15"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>User Email</label>
+            <input type="email" class="form-control" name="email" required />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label>Dob</label>
+            <input type="date" class="form-control" name="dob" required />
+          </div>
+          <div class="col-md-6">
+            <label>Age</label>
+            <input
+              type="number"
+              class="form-control"
+              name="age"
+              required
+              maxlength="2"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label>Gender</label>
+            <select class="form-control" name="gender">
+              <option>Male</option>
+              <option>Female</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label>Password</label>
+            <input
+              type="password"
+              class="form-control"
+              name="password"
+              required
+              maxlength="15"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label>Country Code</label>
+            <input
+              type="number"
+              class="form-control"
+              name="countrycode"
+              required
+              maxlength="2"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Contact Number</label>
+            <input
+              type="number"
+              class="form-control"
+              name="contactnumber"
+              required
+              maxlength="10"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label>Skills</label>
+            <textarea
+              class="form-control"
+              cols="5"
+              rows="3"
+              name="skills"
+              required
+            ></textarea>
+          </div>
+          <div class="col-md-6">
+            <label>Address</label>
+            <textarea
+              class="form-control"
+              cols="5"
+              rows="3"
+              name="address"
+              required
+            ></textarea>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label>Pin code</label>
+            <input
+              type="number"
+              class="form-control"
+              name="pincode"
+              required
+              maxlength="10"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Location</label>
+            <div class="row">
+              <div class="col-md-6">
+                <input
+                  type="text"
+                  class="form-control"
+                  name="location"
+                  required
+                  maxlength="15"
+                />
+              </div>
+              <div class="col-md-6">
+                <input
+                  type="text"
+                  class="form-control"
+                  name="location"
+                  required
+                  maxlength="15"
+                />
+                <input
+                  type="hidden"
+                  class="form-control"
+                  name="id"
+                  required
+                  maxlength="15"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 mt-3">
+            <button class="btn btn-info btn-lg ">Edit User</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <script>
+      var url = location.search;
+      var urlId = new URLSearchParams(url);
+      var id = urlId.get("id");
+      console.log(id);
+      var editJson = $.ajax({
+        url: "edit",
+        data: { id: id },
+        type: "POST",
+        dataType: "json",
+        async: false,
+        success: data => {
+          // console.log(data);
+        }
+      }).responseText;
+      console.log(editJson);
+      const editUserForm = document.forms["editUserForm"];
+      var arr = JSON.parse(editJson);
+      console.log(arr);
+      editUserForm.elements["name"].value = arr.name;
+      editUserForm.elements["email"].value = arr.email;
+      editUserForm.elements["dob"].value = arr.dob;
+      editUserForm.elements["age"].value = arr.age;
+      editUserForm.elements["gender"].value = arr.gender;
+      editUserForm.elements["password"].value = arr.password;
+      editUserForm.elements["countrycode"].value = arr.countrycode;
+      editUserForm.elements["contactnumber"].value = arr.contactnumber;
+      editUserForm.elements["skills"].value = arr.skills;
+      editUserForm.elements["address"].value = arr.address;
+      editUserForm.elements["pincode"].value = arr.pincode;
+      editUserForm.elements["location"][0].value = arr.location[0];
+      editUserForm.elements["location"][1].value = arr.location[1];
+      editUserForm.elements["id"].value = arr._id;
+      //   editUserForm.elements["location"].value = arr.location[1];
+      console.log(arr.location[0]);
+
+      const form = $("#editUserForm");
+      form.on("submit", submitHandler);
+      function submitHandler(e) {
+        e.preventDefault();
+        $.ajax({
+          url: "/update",
+          type: "POST",
+          data: form.serialize()
+        }).done(response => {
+          // console.log(response);
+        });
+        alert("Data Updated Successfully !");
+        //   document.getElementById("addUserForm").reset();
+        window.location = "index.html";
+      }
+    </script>
+    <!-- JQuery -->
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
+    ></script>
+    <!-- Bootstrap tooltips -->
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"
+    ></script>
+    <!-- Bootstrap core JavaScript -->
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"
+    ></script>
+    <!-- MDB core JavaScript -->
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.12.0/js/mdb.min.js"
+    ></script>
+  </body>
+</html>

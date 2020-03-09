@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Curd App</title>
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+    />
+    <!-- Google Fonts -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    />
+    <!-- Bootstrap core CSS -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Material Design Bootstrap -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.12.0/css/mdb.min.css"
+      rel="stylesheet"
+    />
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
+    ></script>
+  </head>
+  <body>
+    <!--nav bar-->
+    <nav class="navbar navbar-expand-lg navbar-dark primary-color">
+      <a class="navbar-brand" href="#">Curd App</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse " id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item ">
+            <a class="nav-link" href="index.html">User List</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="adduser.html">Add User</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container-fluid mt-5">
+      <div class="row">
+        <div class="col-md-12">
+          <h3 class="text-center">User Details</h3>
+          <table class="text-center table table-bordered">
+            <thead>
+              <tr>
+                <th>S No</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Phone No</th>
+                <th>Skills</th>
+                <th>Address</th>
+                <th>Pin Code</th>
+                <th>Location</th>
+                <th>Edit</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <script>
+      $(document).ready(function() {
+        let userList = () => {
+          var arr = $.ajax({
+            url: "userList",
+            type: "GET",
+            dataType: "json",
+            async: false,
+            success: data => {
+              //console.log(data);
+            }
+          }).responseText;
+          //  console.log(arr);
+          let userData = JSON.parse(arr);
+          // console.log(userData);
+          let tbody = document.querySelector("#tbody");
+          const rows = userData
+            .map(
+              (user, i) => `
+                <tr>
+                <td>${i + 1}</td>
+                <td>${user.name}</td>
+                <td>${user.email}</td>
+                <td>${user.age}</td>
+                <td>${user.gender}</td>
+                <td>${user.contactnumber}</td>
+                <td>${user.skills}</td>
+                <td>${user.address}</td>
+                <td>${user.pincode}</td>
+                <td>${user.location}</td>
+                <td>
+                 <a class="btn btn-info" href="edituser.html?id=${
+                   user._id
+                 }" >Edit</a>
+                </td>
+                <td>
+                  <form  class="delete">
+                    <input type="hidden" name="id" value="${user._id}">
+                    <button class="btn btn-danger">Delete</button>
+                </form>
+                </td>
+             </tr>
+                `
+            )
+            .join("");
+          tbody.innerHTML = rows;
+        };
+        userList();
+        // delete data
+        const form = $(".delete");
+        form.on("submit", deleteHandler);
+
+        function deleteHandler(e) {
+          e.preventDefault();
+          $.ajax({
+            url: "/delete",
+            type: "POST",
+            data: form.serialize()
+          }).done(response => {
+            // console.log(response);
+          });
+          alert("Data Deleted Successfully !");
+          userList();
+          // document.getElementById("addUserForm").reset();
+        }
+      });
+    </script>
+    <!-- JQuery -->
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
+    ></script>
+    <!-- Bootstrap tooltips -->
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"
+    ></script>
+    <!-- Bootstrap core JavaScript -->
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"
+    ></script>
+    <!-- MDB core JavaScript -->
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.12.0/js/mdb.min.js"
+    ></script>
+  </body>
+</html>
